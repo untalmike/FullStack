@@ -6,9 +6,14 @@ import ReactDOM from 'react-dom';
  * @param {*} props 
  * @returns 
  */
-const Header = (props) => {
+const Header = ({ course }/* props */) => {
+  /**
+   * Excercise 1.5
+   */
+    const {name} = course
   return (
-    <h1>{props.course}</h1>  
+    // <h1>{props.course}</h1>  
+    <h1>{name}</h1>  
   )
 }
 
@@ -18,20 +23,38 @@ const Header = (props) => {
  * @param {*} props 
  * @returns 
  */
-const Part = (props) => {
+const Part = ({part, index}) => {
+  {/* {props.part}{props.excercise} */}
+  {/**
+    * Excercise 1.4 & 1.5
+  */}
   return (
-    <p>
-        {props.part}{props.excercise}
+    <p key={index}>
+        {part.name} {part.excercises}
     </p>
   )
 }
 
-const Content = (props) => {
+const Content = ({ course /* parts */}) => {
+  /** Excercise 1.5 */
+  const {parts} = course
   return (
     <div>
-      <Part part={props.part1} excercise={props.excercises1} />
-      <Part part={props.part2} excercise={props.excercises2} />
-      <Part part={props.part3} excercise={props.excercises3} />
+      {/* <Part part={props.part1.name} excercise={props.part3.excercises} />
+      <Part part={props.part2.name} excercise={props.part3.excercises} />
+      <Part part={props.part3.name} excercise={props.part3.excercises} /> */}
+
+      {/**
+       * Excercise 1.4
+       */}
+      {parts.map((part, i) => {
+        return (
+          <Part 
+            key={i}
+            part={part}
+            index={i} />
+        )
+      })}
     </div>
   )
 }
@@ -52,36 +75,121 @@ const Content = (props) => {
 //   )
 // }
 
-const Total = (props) => {
+const Total = ({course /* parts */}) => {
+  /** Excercise 1.5 */
+  const { parts } = course
+  const Total = parts.reduce((prev, curr) => prev + curr.excercises, 0);
   return(
-    <p>Number of excercises {props.excercises1 + props.excercises2 + props.excercises3}</p>
+    /**
+     * Excercise 1.3
+     * <p>Number of excercises {props.excercises1 + props.excercises2 + props.excercises3}</p>
+     */
+
+    /**
+     * Excercise 1.4
+     * <p>Number of excercises {props.excercises}</p> 
+     */
+    <div>
+      <p>Number of excercises {Total}</p>
+    </div>
   )
 }
 
-const App = () => {
-  const course = 'Half Stack application development'
-  const part1 = "Fundamentals of React"
-  const excercises1 = 10
-  const part2 = "Using props to pass data"
-  const excercises2 = 7
-  const part3 = "State of a component"
-  const excercises3 = 14
+const App = () => {  
+  // const part1 = "Fundamentals of React"
+  // const excercises1 = 10
+  // const part2 = "Using props to pass data"
+  // const excercises2 = 7
+  // const part3 = "State of a component"
+  // const excercises3 = 14
+
+  /**
+   * Excercise 1.3
+   */
+  // const part1 = {
+  //   name: "Fundamentals of React",
+  //   excercises: 10
+  // }
+  
+  // const part2 = {
+  //   name: "Using props to pass data",
+  //   excercises: 7
+  // }
+
+  // const part3 = {
+  //   name: "State of a component",
+  //   excercises: 14
+  // }
+  /**
+   * Step 1.4
+   */
+  // const course = 'Half Stack application development'
+  // const parts = [
+  //   {
+  //     name: "Fundamentals of React",
+  //     excercises: 10
+  //   },
+  //   {
+  //     name: "Using props to pass data",
+  //     excercises: 7
+  //   },
+  //   {
+  //     name: "State of a component",
+  //     excercises: 14
+  //   }
+  // ]
+
+  /**
+   * Step 1.5
+   */
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: "Fundamentals of React",
+        excercises: 10
+      },
+      {
+        name: "Using props to pass data",
+        excercises: 7
+      },
+      {
+        name: "State of a component",
+        excercises: 14
+      }
+    ]
+  }
   
   return(
     <div>
-      <Header course={course}/>
+      <Header 
+        course={course}
+      />
       <Content 
-        part1={part1}
-        part2={part2}
-        part3={part3}
-        excercises1={excercises1}
-        excercises2={excercises2}
-        excercises3={excercises3}
+        // Excercise 1.3
+        // parts1={part1}
+        // part2={part2}
+        // part3={part3}
+
+        // Excercise 1.4
+        // parts={parts}
+
+        // Excercise 1.5
+        course={course}
       />
       <Total 
-        excercises1={excercises1}
-        excercises2={excercises2}
-        excercises3={excercises3}
+        // excercises1={part1.excercises}
+        // excercises2={part2.excercises}
+        // excercises3={part3.excercises}
+
+        // Excercise 1.3
+        // excercises={part1.excercises + part2.excercises + part3.excercises}
+
+        // Excercise 1.4
+        // parts={parts}
+
+        // Excercise 1.5
+        course={course}
       />
     </div>
   )
