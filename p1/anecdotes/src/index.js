@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const Button = (props) => { 
+const Button = ({handleCLick, text}) => { 
   return (
-    <button onClick={props.handleCLick}>{props.text}</button>
+    <button onClick={handleCLick}>{text}</button>
   )
 }
 
@@ -11,10 +11,11 @@ const Button = (props) => {
 const App = (props) => {
   const [selected, setSelected] = useState(0)
   const [vote, setVote] = useState(anecdotes.map(() => 0))
-  const max = anecdotes.length
   
-  const nextAnecdote = (newAnecdote) => {
-    setSelected(newAnecdote)
+  const nextAnecdote = () => {
+    const max = anecdotes.length
+    const jump = Math.floor(Math.random() * max)
+    setSelected(jump)
   }
 
   const nextVote = () => {
@@ -22,14 +23,23 @@ const App = (props) => {
     copy[selected] += 1
     setVote(copy)
   }
+
+  const maxVotes = Math.max.apply(0, vote)
+  const indexAnecdote = vote.indexOf(maxVotes)
   
   return (
     <div>
-      <p>{props.anecdotes[selected]}</p>
-      <p>Has {vote[selected]} votes</p>
       <div>
-        <Button handleCLick={nextVote} text="Vote" />
-        <Button handleCLick={() => nextAnecdote(Math.floor(Math.random() * max))} text="Next anecdote" />
+        <p>{props.anecdotes[selected]}</p>
+        <p>Has {vote[selected]} votes</p>
+        <div>
+          <Button handleCLick={nextVote} text="Vote" />
+          <Button handleCLick={nextAnecdote} text="Next anecdote" />
+        </div>
+      </div>
+      <div>
+        <h2>Anecdote with most votes</h2>
+        <p>{anecdotes[indexAnecdote]}</p>
       </div>
     </div>
   )
