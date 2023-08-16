@@ -16,7 +16,12 @@ const ButtonStatistics = ({text, onClick}) => {
 
 const StatisticLine = ({ value, text }) => {
   return (
-    <p>{`${text}: ${value}`}</p>  
+    <table style={{width:'30%',textAlign:'left'}}>
+      <tr>
+        <th>{text}</th>
+        <td>{value}</td>
+      </tr>
+    </table>
   )
 }
 
