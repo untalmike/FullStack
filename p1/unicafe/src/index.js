@@ -17,10 +17,14 @@ const ButtonStatistics = ({text, onClick}) => {
 const StatisticLine = ({ value, text }) => {
   return (
     <table style={{width:'30%',textAlign:'left'}}>
-      <tr>
-        <th>{text}</th>
-        <td>{value}</td>
-      </tr>
+      <thead></thead>
+      <tbody>
+        <tr>
+          <th>{text}</th>
+          <td>{value}</td>
+        </tr>
+      </tbody>
+      <tfoot></tfoot>
     </table>
   )
 }
