@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
@@ -11,64 +14,29 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
 
-  const handleName = (e) => {
-    setNewName(e.target.value)
-  }
-
-  const handleNumber = (e) => {
-    setNewNumber(e.target.value)
-  }
-
-  const changeFinder = (e) => {
-    setFinder(e.target.value)
-  }
-
-  const generalInfo = persons.map( person => person )
-  const filterInfo = generalInfo.filter(display => (display.name.toLowerCase().includes(`${finder}`)))
-
-  const addName = (e) => {
-    e.preventDefault()
-    
-    const newPerson = {
-      name: newName,
-      number: newNumber
-    }
-    const sameName = persons.find(person => person.name === newPerson.name)
-
-    if(sameName){
-      alert(`${newName} is already added to phonebook`)
-    } else {
-      setPersons(persons.concat(newPerson))
-      setNewName('')
-      setNewNumber('')
-    }
-    
-  }
-
-  
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>Filter shown with: <input type='search' value={finder} onChange={changeFinder}/></div>
+      <Filter 
+        finder={finder}
+        setFinder={setFinder}
+      />
 
       <h2>Add a new</h2>
-      <form onSubmit={addName}>
-        <div>name: <input onChange={handleName} value={newName}/></div>
-        <div>number: <input onChange={handleNumber} value={newNumber}/></div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm 
+        newName={newName}
+        newNumber={newNumber}
+        setNewName={setNewName}
+        setNewNumber={setNewNumber}
+        persons={persons}
+        setPersons={setPersons}
+      />
 
       <h2>Numbers</h2>
-        {
-          finder === ""
-          ?
-            generalInfo.map(general => <p key={general.name}>{general.name} {general.number}</p>)
-          :
-            filterInfo.map(info => <p key={info.name}>{info.name} {info.number}</p>)
-        }
+      <Persons
+        persons={persons}
+        finder={finder}
+      />
 
     </div>
   )
